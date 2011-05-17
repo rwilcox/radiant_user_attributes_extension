@@ -1,5 +1,34 @@
 = User Attributes
 
-Radiant is so freaking awesome, but I made it better through this extension.
+Radiant has a config system to configure an entire site. These settings live in config/environment.rb
 
-Created by Your Name. 
+This extension lets you set configure options **on a user**.
+
+Use case:
+========================
+
+Extension developers can avoid creating a migration that adds new fields to User.
+
+This especially applies to when you have to write a custom Dashboard, for
+example with Saturn Flyer's Dashboard extension
+(https://github.com/saturnflyer/radiant-dashboard-extension)
+
+
+How to use it
+======================
+
+This extension adds a field to user named user_attributes. It's a Rails serialized_field
+(meaning that it will serialize whatever you give it into YAML). 
+
+Each save this extension checks, and if this attribute is nil, it will save an empty hash in the record.
+
+So, to add a "blog location" attribute:
+
+  u = User.find ...
+
+  u.user_attributes["blog_location"] = "ryans_blog"
+  u.save!
+
+
+Created by Ryan Wilcox
+Big thanks to Jim Gay
