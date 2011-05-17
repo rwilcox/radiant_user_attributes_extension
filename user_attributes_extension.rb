@@ -4,10 +4,15 @@ require 'radiant-user_attributes-extension/version'
 class UserAttributesExtension < Radiant::Extension
   version RadiantUserAttributesExtension::VERSION
   description "Adds user_attributes to Radiant."
-  url "http://yourwebsite.com/user_attributes"
+  url "http://github.com/rwilcox/radiant_user_attributes"
 
   User.class_eval do
     serialize :user_attributes
+    before_save do |obj|
+      if obj.user_attributes.nil?
+        obj.user_attributes = {}  # by default this should be a hash, to be extensiable
+      end
+    end 
   end
 
   # extension_config do |config|
